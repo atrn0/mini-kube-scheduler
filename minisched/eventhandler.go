@@ -6,8 +6,10 @@ import (
 	"k8s.io/client-go/tools/cache"
 )
 
+// MEMO: EventHandlerを登録する関数
 func addAllEventHandlers(
 	sched *Scheduler,
+	// MEMO: informer: イベントを検知する
 	informerFactory informers.SharedInformerFactory,
 ) {
 	// unscheduled pod
@@ -16,7 +18,7 @@ func addAllEventHandlers(
 			FilterFunc: func(obj interface{}) bool {
 				switch t := obj.(type) {
 				case *v1.Pod:
-					return !assignedPod(t)
+					return !assignedPod(t) // MEMO: アサインされていないポッドのみにフィルター
 				default:
 					return false
 				}
